@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog, messagebox
 
 """
 ファイルを読み込んで、その名前を変更するファイル
@@ -12,53 +13,102 @@ import tkinter as tk
 ・tkinterを使って、GUIで動かせるようにする
 """
 
-def mainwindow():
+# -------------処理-------------
 
+class App:
+
+    def __init__(self, root):
+        self.root = root
+        self.entry_path = tk.Entry(root)
+        self.entry_path.pack()
+
+        btn = tk.Button(root, text="選択", command=self.choose_file)
+        btn.pack()
+
+        # 画面作成
+        self.main_window()
+
+    def choose_file(self):
+        # ファイル選択ダイアログを開く（初期ディレクトリはカレント）
+        path = filedialog.askopenfilename(title="名前を変更するファイルを選択")
+        if path:
+            # 選ばれたパスを entry に表示
+            self.entry_path.delete(0, tk.END)
+            self.entry_path.insert(0, path)
+        else:
+            # キャンセルしたときは何もしない（任意）
+            pass
+
+        return
+
+
+
+    def rename(self,mode=0,old_name='default',new_name=''):
+
+        """
+        名前変更の処理
+
+        変数一覧
+        mode ← 変数に入れられた値によって動作する(名前を完全変更か一部変更)　予定
+        old_name ←　変更前の名前
+        new_name ←　変更後の名前
+
+        """
+
+        print(f'renameが動作します')
+        print(f'{old_name}')
+
+        if new_name != '':
+            print(f'{old_name}を{new_name}に変更します')
+            old_name = new_name
+
+    # -------------画面-------------
+
+    def main_window(self):
+
+        # 画面表示サイズ　横x縦+横の位置+縦の位置
+        self.root.geometry('400x400+400+200')
+
+        # タイトル名
+        self.root.title('名前変更君')
+
+        # 画面サイズ変更許可　今回は不可
+        self.root.resizable(False,False)
+
+        # ラベル
+        label = tk.Label(self.root, text="名前変更アプリ")
+        label.pack()
+
+        # # ラベル + Entry（選択されたファイルパスを表示）
+        # tk.Label(self.root, text="対象ファイル:").pack(anchor="w", padx=10, pady=(10, 0))
+        # entry_path = tk.Entry(self.root, width=80)
+        # entry_path.pack(padx=10, pady=(0, 8))
+        #
+        # # ファイル選択ボタン
+        # btn_choose = tk.Button(self.root, text="ファイルを選択", command=self.choose_file)
+        # btn_choose.pack(padx=10, pady=(0, 10))
+
+        # # エントリー
+        # entry = tk.Entry(self.root)
+        # entry.pack()
+        #
+        # new_name = entry.get()
+
+        # ボタン
+        # command=lambda: 関数名()　この形にしないと起動と同時にボタンが実行する
+        button = tk.Button(self.root, text='変換実行', command=lambda: self.rename(new_name=new_name))
+        button.pack()
+
+
+
+
+def main():
     root = tk.Tk()
-
-    # 画面表示サイズ　横x縦+横の位置+縦の位置
-    root.geometry('400x400+400+200')
-    # タイトル名
-    root.title('名前変更君')
-    # 画面サイズ変更許可　今回は不可
-    root.resizable(False,False)
-
-    # ラベル
-    label = tk.Label(root, text="名前変更アプリ")
-    label.pack()
-
-    # エントリー
-    entry = tk.Entry(root)
-    entry.pack()
-
-    # ボタン
-    button = tk.Button(root,text='変換実行' ,command=rename(new_name='goodbye'))
-    button.pack()
+    app = App(root)
 
     # これがないと画面が表示されない
     root.mainloop()
 
-
-def rename(mode=0,old_name='defalt',new_name=''):
-
-    """
-    名前変更の処理
-
-    変数一覧
-    mode ← 変数に入れられた値によって動作する(名前を完全変更か一部変更)　予定
-    old_name ←　変更前の名前
-    new_name ←　変更後の名前
-
-    """
-
-    print(old_name)
-
-    if new_name != '':
-        print(f'{old_name}を{new_name}に変更します')
-        old_name = new_name
-
-def main():
-    mainwindow()
-
 if __name__ == "__main__":
+    # このプログラムが実行されたときにmain()を実行する パッケージとして呼び出されるときは実行しない
     main()
