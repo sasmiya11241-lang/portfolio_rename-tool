@@ -1,13 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-
-'''
-Next
-grid()の中の行列をいじってボタン配列を綺麗にする
-変数はinitにまとめて、コードをすっきりさせる
-ボタン処理を作る
-'''
 """
 ファイルを読み込んで、その名前を変更するファイル
 次に名前の一部を変更する機能をつける
@@ -29,6 +22,8 @@ class App:
         self.root = root
         # 入力欄の生成
         self.entry_path = tk.Entry(root)
+        # 生成したものを配置する
+        self.entry_path.pack()
 
         # 画面作成
         self.main_window()
@@ -80,21 +75,24 @@ class App:
         # 画面サイズ変更許可　今回は不可
         self.root.resizable(False,False)
 
-        # 入力欄の配置
-        self.entry_path.grid(row=0, column=0, padx=10, pady=5)
-
         # ファイル選択ボタン
         btn = tk.Button(self.root, text="選択", command=self.choose_file)
-        btn.grid(row=1, column=1, padx=10, pady=5)
+        btn.pack()
 
         # ラベル
         label = tk.Label(self.root, text="名前変更アプリ")
-        label.grid(row=1, column=0, padx=10, pady=5)
+        label.pack()
+
+        # # エントリー
+        # entry = tk.Entry(self.root)
+        # entry.pack()
+        #
+        # new_name = entry.get()
 
         # ボタン
         # command=lambda: 関数名()　この形にしないと起動と同時にボタンが実行する
         button = tk.Button(self.root, text='変換実行', command=lambda: self.rename(new_name=new_name))
-        button.grid(row=0, column=0, padx=10, pady=5)
+        button.pack()
 
 
 
